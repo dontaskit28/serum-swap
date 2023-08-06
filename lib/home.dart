@@ -1,15 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:provider/provider.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:serumswap/coin_market.dart';
 import 'package:serumswap/phantom.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:serumswap/providers/wallet_state_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   final Phantom phantom;
@@ -565,11 +560,11 @@ class _HomeState extends State<Home> {
                             color: const Color.fromARGB(255, 23, 42, 66),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
-                              const Text(
+                              Text(
                                 "Swap",
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 20),
@@ -590,11 +585,11 @@ class _HomeState extends State<Home> {
                           decoration: BoxDecoration(
                               color: const Color.fromARGB(255, 23, 42, 66),
                               borderRadius: BorderRadius.circular(10)),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             // ignore: prefer_const_literals_to_create_immutables
                             children: [
-                              const Text(
+                              Text(
                                 "Connect Wallet",
                                 style: TextStyle(
                                   color: Color.fromARGB(255, 76, 137, 224),

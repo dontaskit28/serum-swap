@@ -1,17 +1,10 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:jupiter_aggregator/jupiter_aggregator.dart';
 import 'package:alert/alert.dart';
 import 'package:phantom_connect/phantom_connect.dart';
-import 'package:solana/base58.dart';
-import 'package:solana/dto.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:http/http.dart' as http;
-import 'main.dart';
 
 class Phantom {
   late StreamSubscription sub;
@@ -23,7 +16,7 @@ class Phantom {
     'BTC': '9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E',
     'ETH': '2FPyTwcZLUg1MDrwsyoP4D6s1tM7hAkHYRjkNb5w6Pxk'
   };
-  var data_feed = {};
+  var dataFeed = {};
   bool connected = false;
   int tswap = 0;
   int nswap = 0;
@@ -98,8 +91,6 @@ class Phantom {
   }
 
   Future swap(String inputmint, String outputmint, double amount) async {
-    print(inputmint);
-    print(outputmint);
     String? mint1 = mints[inputmint];
     String? mint2 = mints[outputmint];
     if (inputmint == 'USDC') {
@@ -119,11 +110,10 @@ class Phantom {
           slippage: 50,
           feeBps: 4);
       final routes = [];
-      data.forEach((element) {
+      for (var element in data) {
         final d = element.toJson();
-        print(d);
         routes.add(d);
-      });
+      }
       final trans = await client1.getSwapTransactions(
           userPublicKey: phantomConnect.userPublicKey.toString(),
           route: data[0]);

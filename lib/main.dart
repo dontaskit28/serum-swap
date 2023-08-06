@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:alert/alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -13,7 +12,6 @@ import 'package:serumswap/phantom.dart';
 import 'package:serumswap/providers/wallet_state_provider.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:solana/solana.dart';
 import 'dart:convert';
 import 'package:http/http.dart';
 
@@ -41,8 +39,6 @@ class _MyAppState extends State<MyApp> {
   late StreamSubscription sub;
 
   late Phantom phantom;
-
-  var data_feed = {};
 
   int selected = 0;
 
@@ -98,7 +94,6 @@ class _MyAppState extends State<MyApp> {
                     Uri.parse("https://public-api.solscan.io/transaction/$sig"))
                 .then((value) => value.body);
             var stat = jsonDecode(feed) as Map;
-            print(stat);
             if (stat['status'] == 'success') {
               phantom.tswap = 1;
               phantom.sigurl = "https://solscan.io/tx/$sig";
