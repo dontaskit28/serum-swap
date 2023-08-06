@@ -35,6 +35,7 @@ class _OrderbookState extends State<Orderbook> {
   String dropdownvalue = 'ALL';
   String dropdownvalue2 = "SOl - USDC";
   String dropAddress = "9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT";
+  bool loading = false;
   var items = ['ALL', 'ASKS', 'BIDS'];
   var items2 = ["SOl - USDC", "BTC - USDC", "SRM - USDC"];
 
@@ -48,20 +49,27 @@ class _OrderbookState extends State<Orderbook> {
   List<dynamic> asks = [];
   List<dynamic> bids = [];
   void fetch() {
+    setState(() {
+      loading = true;
+    });
+
     fetchData('ask', dropAddress)
         .then((value) => setState(
               () {
                 asks = value;
               },
             ))
-        .catchError((e) => {Alert(message: e)});
+        .catchError((e) => {Alert(message: e.toString())});
     fetchData('bid', dropAddress)
         .then((value) => setState(
               () {
                 bids = value;
               },
             ))
-        .catchError((e) => {Alert(message: e)});
+        .catchError((e) => {Alert(message: e.toString())});
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -158,25 +166,35 @@ class _OrderbookState extends State<Orderbook> {
             const SizedBox(
               height: 10.0,
             ),
-            asks.length == 0 || bids.length == 0
-                ? SizedBox(
-                    height: MediaQuery.of(context).size.height / 2,
-                    child: Center(
-                      child: LoadingAnimationWidget.hexagonDots(
-                        color: Colors.white,
-                        size: 40,
-                      ),
+            loading
+                ? Center(
+                    child: LoadingAnimationWidget.hexagonDots(
+                      size: 40,
+                      color: Colors.white,
                     ),
                   )
-                : dropdownvalue == "ALL"
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _createDataTable("ASKS", "Small"),
-                          _createDataTable("BIDS", "Small"),
-                        ],
+                : asks.length == 0 || bids.length == 0
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height / 2,
+                        child: const Center(
+                            child: Text(
+                          "Failed to Fetch Data",
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.redAccent,
+                          ),
+                        )),
                       )
-                    : Center(child: _createDataTable(dropdownvalue, "Large"))
+                    : dropdownvalue == "ALL"
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              _createDataTable("ASKS", "Small"),
+                              _createDataTable("BIDS", "Small"),
+                            ],
+                          )
+                        : Center(
+                            child: _createDataTable(dropdownvalue, "Large"))
           ],
         ),
       ),

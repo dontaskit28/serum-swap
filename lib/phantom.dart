@@ -140,7 +140,6 @@ class Phantom {
 
   Future getBalance() async {
     final value = await client.getBalance(phantomConnect.userPublicKey);
-
     return value / lamportsPerSol;
   }
 

@@ -25,10 +25,26 @@ class _AccountState extends State<Account> {
 
   @override
   void initState() {
-    widget.phantom
-        .getBalance()
-        .then((value) => setState(() => {balance = value}));
     super.initState();
+    fetch();
+  }
+
+  void fetch() async {
+    try {
+      final value = await widget.phantom.getBalance();
+      setState(() {
+        balance = value;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    addressController.dispose();
+    amountController.dispose();
   }
 
   @override

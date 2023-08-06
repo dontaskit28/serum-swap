@@ -133,6 +133,7 @@ class _HomeState extends State<Home> {
   void dispose() {
     super.dispose();
     _firsController.dispose();
+    _controller.dispose();
   }
 
   @override
